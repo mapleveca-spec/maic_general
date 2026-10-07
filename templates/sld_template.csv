@@ -1,0 +1,23 @@
+"var_name","var_type","var_level","sld_n","sld_est","sld_sd"
+"fac_sev_hb","cat","Mild",100,0.05,0.217944947177034
+"fac_sev_hb","cat","Moderate",100,0.3,0.458257569495584
+"fac_sev_hb","cat","Severe",100,0.65,0.476969600708473
+"fac_tar_jnt_lead","cat","No",100,0.5,0.5
+"fac_tar_jnt_lead","cat","Yes",100,0.5,0.5
+"fac_prior_treatment","cat","Standard half-life",100,0.3,0.458257569495584
+"fac_prior_treatment","cat","Extended half-life",100,0.55,0.49749371855331
+"fac_prior_treatment","cat","Other",100,0.15,0.357071421427142
+"fac_color_sld_extra","cat","Blue",100,0.45,0.49749371855331
+"fac_color_sld_extra","cat","Red",100,0.3,0.458257569495584
+"fac_color_sld_extra","cat","Yellow",100,0.15,0.357071421427142
+"fac_color_sld_extra","cat","Missing",100,0.1,0.3
+"fac_color_ipd_extra","cat","Blue",100,1,0
+"fac_color_missing_both","cat","Blue",100,0.5,0.5
+"fac_color_missing_both","cat","Red",100,0.4,0.489897948556636
+"fac_color_missing_both","cat","Missing",100,0.1,0.3
+"fac_age","con",,100,50,10
+"fac_bmi","con",,100,30,3
+"fac_weight","con",,100,,
+"fac_height","con",,100,,
+"fac_egfr","con",,100,85,14
+"fac_egfr","con","Missing",100,0.12,0.324961536185438

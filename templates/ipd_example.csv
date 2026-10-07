@@ -1,0 +1,61 @@
+"USUBJID","ARM","fac_sev_hb","fac_tar_jnt_lead","fac_prior_treatment","fac_color_sld_extra","fac_color_ipd_extra","fac_color_missing_both","fac_age","fac_bmi","fac_weight","fac_height","fac_egfr","y_resp","y_time","y_event","y_score"
+"SUBJ001","A","Severe","No","Standard half-life","Blue","Blue","Red",63.9,28.6,49.7,173.5,121.7,1,19.74,0,-2.6
+"SUBJ002","B","Severe","Yes",,"Red","Red","Blue",55.2,23.7,78.3,161.1,90.7,0,16.69,1,-5
+"SUBJ003","A","Moderate","No","Extended half-life","Blue","Blue","Red",52.1,32.9,83.5,161,104.2,0,7.59,1,-7.6
+"SUBJ004","B","Moderate","No",,"Blue","Blue","Blue",40.6,25.8,73.4,170.4,58.1,1,6.36,0,-3.7
+"SUBJ005","A","Severe","No","Standard half-life","Blue","Blue","Blue",54.4,26.8,93.2,184.5,91.4,1,26.32,0,-9.2
+"SUBJ006","B","Moderate","No","Standard half-life","Blue","Red","Blue",43.4,30.8,98.2,180,63.9,0,3.13,0,-6.3
+"SUBJ007","A","Severe","Yes","Standard half-life","Blue","Blue","Blue",72,26.4,76.7,161,64.5,1,20.16,0,-7.9
+"SUBJ008","B","Mild","No","Standard half-life","Blue","Blue","Red",51.8,27.6,92,171.6,111.1,0,7.77,0,-6
+"SUBJ009","A","Moderate","No","Standard half-life","Red","Red",,39.2,34.1,86.3,170.4,100.5,0,84.43,0,-13.1
+"SUBJ010","B","Severe","Yes","Standard half-life","Blue","Blue","Red",66.1,25.5,82.2,156.9,98.6,0,2.81,1,0
+"SUBJ011","A","Moderate","Yes","Standard half-life","Blue","Blue","Blue",42.9,27.1,79,163.7,82,1,44.43,1,-6
+"SUBJ012","B","Severe","No","Extended half-life","Blue","Red","Red",30.5,34,83,165.4,70.8,0,6.8,1,-9.9
+"SUBJ013","A","Moderate","Yes","Standard half-life","Blue","Red","Red",36.5,26.6,78.1,182.9,96.4,1,2.2,1,-2
+"SUBJ014","B","Mild","Yes","Standard half-life","Blue","Red","Blue",48.5,25.8,95.6,164.8,73.1,1,13.7,1,-5.9
+"SUBJ015","A","Moderate","No","Extended half-life","Blue","Red","Blue",43.2,29,78.1,179.7,126.3,1,5.55,1,-9.7
+"SUBJ016","B","Moderate","Yes","Standard half-life","Red","Blue","Blue",53,30.5,73.2,162.1,91.2,0,2.83,0,-10.5
+"SUBJ017","A","Severe","Yes","Standard half-life","Blue","Blue","Red",45.5,25.4,83.6,183.4,94.7,0,10.85,0,-8.1
+"SUBJ018","B","Moderate","No","Extended half-life","Blue","Red","Red",27.6,,47.6,160.7,66.3,0,0.19,1,-10.7
+"SUBJ019","A","Moderate","No","Extended half-life","Red","Blue","Blue",44.8,,56.1,163.9,97.8,0,3.36,0,-6.9
+"SUBJ020","B","Moderate","Yes","Standard half-life","Blue","Red","Red",67.4,24.1,79.1,175.2,107,0,3.51,1,-2.3
+"SUBJ021","A","Moderate","No",,"Red","Blue","Blue",43.1,28.1,102.2,174.3,94.7,1,4.45,1,-5.1
+"SUBJ022","B","Moderate","Yes","Standard half-life","Blue","Blue","Blue",41.5,34.8,73.4,179.7,90.8,1,2.38,0,-8.3
+"SUBJ023","A","Moderate","Yes","Extended half-life","Red","Blue","Blue",46.7,31.5,67,153,113.5,0,7.24,0,-14.8
+"SUBJ024","B","Moderate","Yes","Extended half-life","Red","Red","Red",66.2,25.1,75.2,178.7,100.8,0,5.42,0,-1.6
+"SUBJ025","A","Severe","No","Other","Blue","Red","Blue",38.4,29.4,94.5,165.6,99.5,1,5.08,0,-7.2
+"SUBJ026","B","Moderate","Yes","Standard half-life","Red","Blue",,56.6,27,87.1,168.5,106,0,4.15,1,1
+"SUBJ027","A","Severe","Yes","Standard half-life","Blue","Blue","Blue",41.2,27.3,89.4,159.9,95.1,1,28.2,0,-9.3
+"SUBJ028","B","Moderate","Yes","Extended half-life","Blue","Blue","Blue",44.4,31.5,77.4,159.3,137.2,1,5.07,1,-3.4
+"SUBJ029","A","Moderate","No","Extended half-life","Blue","Blue","Blue",44.1,30.4,87,175.3,95.2,1,0.69,0,-6.5
+"SUBJ030","B","Severe","No","Standard half-life","Red","Red","Red",56.6,31.7,93.6,172.2,106.1,0,0.43,1,-6
+"SUBJ031","A","Mild","Yes","Standard half-life","Blue","Blue","Blue",54.7,29.8,107.7,166.3,103.7,1,11.4,1,-13.6
+"SUBJ032","B","Moderate","Yes","Standard half-life","Blue","Red","Red",59.8,24.8,65.7,166,100.8,1,20.89,1,-6.6
+"SUBJ033","A","Severe","Yes","Other","Blue","Red","Blue",59.7,26,74.6,177.4,105.8,1,3.08,1,-6.2
+"SUBJ034","B","Moderate","No","Extended half-life","Blue","Red","Red",71.8,23.1,76.5,182.8,95.3,1,9.84,1,-2.1
+"SUBJ035","A","Severe","No","Extended half-life","Blue","Blue","Blue",48.8,30.5,72,181.9,61,0,23.79,1,-13.4
+"SUBJ036","B","Severe","No","Extended half-life","Blue","Red","Red",20.1,33.4,64.6,178.1,78,0,18.19,1,-8.2
+"SUBJ037","A","Moderate","Yes","Standard half-life","Blue","Red","Blue",42,21.5,74.4,178.8,125.1,0,2,1,-13.1
+"SUBJ038","B","Severe","No","Extended half-life","Blue","Blue",,39.5,28.3,72,,118.8,0,7.69,1,-2.9
+"SUBJ039","A","Severe","Yes","Extended half-life","Red","Red","Red",44.7,30.1,84.6,177.3,88.4,0,16.35,1,-8
+"SUBJ040","B","Severe","No","Standard half-life","Blue","Red","Blue",60.7,27.1,65.9,157.3,52.3,1,4.01,1,-5.7
+"SUBJ041","A","Moderate","No","Standard half-life","Red","Blue","Red",41.7,,72.7,172.9,78.6,1,20.93,1,-6.2
+"SUBJ042","B","Mild","Yes","Extended half-life","Red","Blue","Red",39.1,23.9,77.6,163.5,67.4,0,17.51,1,-9.4
+"SUBJ043","A","Severe","No","Other","Blue","Blue","Red",53.4,33.1,68.2,165.8,64.8,1,1.79,1,-2.8
+"SUBJ044","B","Severe","No",,"Blue","Red","Blue",55.7,27.2,77.6,187.7,104.3,1,6.62,1,-7.3
+"SUBJ045","A","Moderate","No","Standard half-life","Blue","Red","Red",45.3,32.7,83.3,163.2,91.9,0,9.74,0,-15.5
+"SUBJ046","B","Moderate","No","Standard half-life","Blue","Blue","Blue",52.5,25.4,76.2,,111.6,0,1.21,1,-8.2
+"SUBJ047","A","Mild","Yes","Standard half-life","Blue","Red",,53.5,33.1,85,168.7,70.1,1,19.53,1,-8.9
+"SUBJ048","B","Moderate","Yes","Standard half-life","Blue","Red","Red",52,,64,172.4,74.9,0,3.88,1,-5.3
+"SUBJ049","A","Severe","No","Standard half-life","Blue","Red","Red",41.7,28.1,94.6,183.1,99.6,1,12.62,1,-11.8
+"SUBJ050","B","Moderate","No","Standard half-life","Red","Red","Blue",56.1,32.7,73.1,177.7,107.3,0,1.43,1,-5.8
+"SUBJ051","A","Mild","No","Extended half-life","Red","Red","Blue",23,26.5,83.8,,87.4,1,13.59,1,-9.4
+"SUBJ052","B","Severe","Yes","Extended half-life","Red","Blue","Blue",54.8,26.5,77.1,180.3,75.5,1,3.48,1,-3.3
+"SUBJ053","A","Mild","No",,"Blue","Blue","Red",52.4,28,80.1,,117.8,1,14.82,1,-7.1
+"SUBJ054","B","Mild","No","Extended half-life","Blue","Blue","Red",70.6,27.6,90.1,171.9,115.3,0,23.13,1,-6.4
+"SUBJ055","A","Severe","No","Standard half-life","Red","Blue","Blue",50.9,27.4,68.4,172.7,105.9,1,6.26,1,-6.9
+"SUBJ056","B","Severe","No","Extended half-life","Red","Blue","Red",49.2,27.3,72.6,159,102.2,0,15.55,1,0.7
+"SUBJ057","A","Severe","No","Extended half-life","Blue","Blue","Red",61.2,24.6,72,153.2,72.1,1,1.09,1,-9.9
+"SUBJ058","B","Moderate","No","Other","Red","Red",,56.1,,64.1,169.8,59.6,0,11.59,0,3.5
+"SUBJ059","A","Mild","No","Other","Red","Blue",,48,,86.4,175.4,121.9,0,1.74,1,-4.5
+"SUBJ060","B","Moderate","Yes","Extended half-life","Blue","Red","Blue",47.8,,58.8,172.4,94.5,0,12.3,1,-10.1

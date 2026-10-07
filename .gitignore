@@ -1,0 +1,16 @@
+# R session artefacts
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+.Ruserdata
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Analysis outputs (keep inputs and templates under version control)
+output/
+*.log
