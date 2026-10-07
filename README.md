@@ -44,11 +44,19 @@ to that arm before weighting; single-arm IPD needs no arm arguments.
 
 ## Starting a new study
 
-`templates/new_study_template.R` is a complete, annotated analysis script
-that reads the four input tables from CSV, validates them, runs the primary
-and full analyses and the sensitivity scenarios, and writes the tables. The
-CSV templates beside it are filled with the toy data, so the script runs as
-is; replace their contents for a real study. Metadata is maintained as a
+Two annotated analysis scripts live in `templates/`, both filled with the toy
+data so they run as is; replace the CSV contents for a real study.
+
+- `new_study_template.R`: the multi-outcome route. Reads the four input
+  tables, validates them, runs every published result as its own analysis on
+  the primary and full weighting sets, runs sensitivity scenarios for one
+  outcome, and writes the tables and a weight plot.
+- `single_outcome_template.R`: the single-outcome route for a binary
+  response, with the outcome and published results specified inline. Runs
+  the anchored comparison on both weighting sets and the unanchored
+  comparison on the intervention arm, each with a bootstrap, plus the
+  sensitivity scenarios, balance tables, weight plots, and bootstrap
+  stability diagnostics. Metadata is maintained as a
 flat file with `level_order` written as `Mild|Moderate|Severe` and read with
 `read_metadata_csv()`. Published ratios with confidence intervals convert with
 `se_from_ci()` on the log scale.
