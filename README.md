@@ -56,7 +56,13 @@ data so they run as is; replace the CSV contents for a real study.
   the anchored comparison on both weighting sets and the unanchored
   comparison on the intervention arm, each with a bootstrap, plus the
   sensitivity scenarios, balance tables, weight plots, and bootstrap
-  stability diagnostics. Metadata is maintained as a
+  stability diagnostics.
+- `step_by_step_template.R`: the same analysis done by calling each module
+  function in turn and printing every intermediate object: summaries,
+  aligned balance, targets, design matrix, solver output, weights and their
+  diagnostics, weighted balance, outcome model, comparison, bootstrap, and
+  the scenario definitions. Run it line by line to learn or debug the
+  process; the pipelines in `08_main` make exactly these calls. Metadata is maintained as a
 flat file with `level_order` written as `Mild|Moderate|Severe` and read with
 `read_metadata_csv()`. Published ratios with confidence intervals convert with
 `se_from_ci()` on the log scale.
