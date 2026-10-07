@@ -102,9 +102,11 @@ full <- run_maic_outcomes(
   n_boot = 0, seed = 2026
 )
 
-# One outcome in depth: its own balance tables and weight diagnostics ------------------
+# One outcome in depth: its own balance tables, weight diagnostics, weight plot ---------
 os <- primary$analyses[["OS [anchored]"]]
 balance_os <- format_balance_comparison(compare_balance_tables(os$balance_before, os$balance_after))
+ggplot2::ggsave(file.path(output_dir, "weights_OS_anchored.png"), plot_weights(os$weight_fit),
+                width = 7, height = 4.5, dpi = 150)
 
 # Sensitivity for one outcome: add prognostic variables one at a time -----------------
 # The order of this vector is the order variables enter the weighting set.
