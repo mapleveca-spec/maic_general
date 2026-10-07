@@ -31,3 +31,6 @@ print(as.data.frame(format_balance_comparison(compare_balance_tables(one$balance
 
 cat("\n== Indirect comparisons, one independent analysis per published result\n")
 print(as.data.frame(format_results(res$summary)), right = FALSE)
+
+ggplot2::ggsave("sandbox/weights_toy.png", plot_weights(one$weight_fit), width = 7, height = 4.5, dpi = 110)
+cat("\nWeight histogram written to sandbox/weights_toy.png\n")

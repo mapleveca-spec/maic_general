@@ -66,7 +66,7 @@ higher). `08_main` sequences the others and contains no statistics.
 | `04_weighting` | Target moments, design matrix, solver, diagnostics | `build_match_targets()`, `build_design_matrix()`, `estimate_maic_weights()`, `weight_diagnostics()` |
 | `05_models` | Outcome specs, arm resolution, weighted fits, comparison, bootstrap | `define_outcome()`, `define_sld_outcome()`, `resolve_arms()`, `fit_outcome_model()`, `compare_to_sld()`, `bootstrap_comparison()` |
 | `06_scenarios` | Scenario definitions as metadata variations | `define_scenarios_sequential()`, `define_scenarios_univariate()` |
-| `07_reporting` | Display tables | `compare_balance_tables()`, `format_balance_comparison()`, `format_results()` |
+| `07_reporting` | Display tables and plots | `compare_balance_tables()`, `format_balance_comparison()`, `format_results()`, `plot_weights()` |
 | `08_main` | Loader and pipelines | `source_framework()`, `run_maic_weighting()`, `run_maic_analysis()`, `run_maic_outcomes()`, `run_maic_scenarios()` |
 
 Every validator is pure: it never transforms its input, collects every problem
@@ -236,8 +236,8 @@ SLD `Missing` row; categorical variables with an SLD-only level, an IPD-only
 level, missingness on each side; and binary, continuous, and time-to-event
 outcomes with anchored and unanchored published results.
 
-Packages used: `tibble`, `dplyr`, `survival`, `sandwich`; `testthat`, `lintr`,
-`cyclocomp` for development.
+Packages used: `tibble`, `dplyr`, `survival`, `sandwich`, `ggplot2`; `testthat`,
+`lintr`, `cyclocomp` for development.
 
 ## Extending the framework
 

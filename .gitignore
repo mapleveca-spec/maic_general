@@ -14,3 +14,6 @@ Thumbs.db
 # Analysis outputs (keep inputs and templates under version control)
 output/
 *.log
+
+# Rendered figures from the sandbox script
+sandbox/*.png
