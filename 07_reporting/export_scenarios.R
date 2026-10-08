@@ -7,8 +7,8 @@
 #     results.csv            formatted scenario table, one row per model, with
 #                            that model's weight distribution
 #     results_numeric.csv    the unformatted results tibble
-#     balance_path.csv       one table: how balance changes step by step
-#                            (scenario_balance_path())
+#     balance_path.csv       one table: how balance changes step by step,
+#                            from the balance-path function below
 #     weights/01_none.png    weight histogram per step, numbered in order
 #     weights/02_fac_age.png
 #     manifest.csv           step, label, variables, weighted, plot path
