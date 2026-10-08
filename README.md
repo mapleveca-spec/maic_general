@@ -68,7 +68,15 @@ data so they run as is; replace the CSV contents for a real study.
   every usable covariate in the `adjust` tier. Starts from the naive
   unweighted baseline, shows the errors raised for variables that cannot be
   weighted on, and ends with sequential and univariate scenarios over the
-  adjust tier. Metadata is maintained as a
+  adjust tier.
+- `multi_analysis_template.R`: several unanchored analyses from a prepared
+  input list (name, population, comparator, IPD, SLD, metadata, outcome,
+  published result). For each, a sequential scenario from the unweighted
+  model and a univariate scenario, exported with `export_scenarios()` under
+  `<output>/<analysis>/<sequential|univariate>/`: a results table with each
+  model's weight distribution, one `balance_path.csv` showing the weighted
+  IPD summary and SMD side by side for every step, a weight histogram per
+  step, and a manifest. Results are stacked across analyses. Metadata is maintained as a
 flat file with `level_order` written as `Mild|Moderate|Severe` and read with
 `read_metadata_csv()`. Published ratios with confidence intervals convert with
 `se_from_ci()` on the log scale.
@@ -86,7 +94,7 @@ higher). `08_main` sequences the others and contains no statistics.
 | `04_weighting` | Target moments, design matrix, solver, diagnostics | `build_match_targets()`, `build_design_matrix()`, `estimate_maic_weights()`, `weight_diagnostics()` |
 | `05_models` | Outcome specs, arm resolution, weighted fits, comparison, bootstrap | `define_outcome()`, `define_sld_outcome()`, `resolve_arms()`, `fit_outcome_model()`, `compare_to_sld()`, `bootstrap_comparison()` |
 | `06_scenarios` | Scenario definitions as metadata variations | `define_scenarios_sequential()`, `define_scenarios_univariate()` |
-| `07_reporting` | Display tables and plots | `compare_balance_tables()`, `format_balance_comparison()`, `format_results()`, `plot_weights()` |
+| `07_reporting` | Display tables, plots, export | `compare_balance_tables()`, `format_balance_comparison()`, `format_results()`, `plot_weights()`, `scenario_balance_path()`, `export_scenarios()` |
 | `08_main` | Loader and pipelines | `source_framework()`, `run_maic_weighting()`, `run_maic_analysis()`, `run_maic_outcomes()`, `run_maic_scenarios()` |
 
 Every validator is pure: it never transforms its input, collects every problem
