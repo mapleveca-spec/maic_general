@@ -1,11 +1,13 @@
 # run_maic_weighting() ---------------------------------------------------------
 #
 # End-to-end pipeline from raw inputs to weights and before/after balance.
-# Order: validate, summarise, balance before, targets, design, weights,
+# Order: validate, summarise, balance before, weights (estimate_weights()),
 # balance after, diagnostics.
 #
 # include_adjust = FALSE weights on the primary set (`match`); TRUE adds the
-# second tier (`adjust`). See weighting_variables().
+# second tier (`adjust`). See weighting_variables(). An empty weighting set
+# gives the naive, unweighted analysis: unit weights, balance_after equal to
+# balance_before, `weighted` = FALSE.
 #
 # This function only sequences module calls. It owns no logic of its own, so
 # scenarios can reuse any slice of it, and anything that needs a branch
@@ -13,8 +15,8 @@
 #
 # Returns a named list:
 #   metadata, ipd_summary, sld_summary          validated inputs and summaries
-#   include_adjust                              which weighting set was used
-#   targets, design, fit                        matching and weighting objects
+#   include_adjust, weighted                    which weighting set; FALSE if naive
+#   targets, design, fit                        weighting objects (see estimate_weights())
 #   weights                                     one per IPD row, 0 if excluded
 #   diagnostics                                 one-row tibble
 #   balance_before, balance_after               BALANCE_COLUMNS tables
@@ -32,12 +34,11 @@ run_maic_weighting <- function(ipd, sld, metadata, include_adjust = FALSE,
   sld_summary <- summarize_sld(sld, metadata)
   balance_before <- create_balance_table(ipd_summary, sld_summary, metadata)
 
-  targets <- build_match_targets(ipd_summary, sld_summary, metadata, include_adjust = include_adjust)
-  design  <- build_design_matrix(ipd, targets, na_action = na_action)
-  fit     <- estimate_maic_weights(design, ...)
+  w <- estimate_weights(ipd, ipd_summary, sld_summary, metadata, include_adjust = include_adjust,
+                        na_action = na_action, ...)
 
   balance_after <- create_balance_table(
-    summarize_ipd(ipd, metadata, weights = fit$weights), sld_summary, metadata
+    summarize_ipd(ipd, metadata, weights = w$fit$weights), sld_summary, metadata
   )
 
   list(
@@ -45,11 +46,12 @@ run_maic_weighting <- function(ipd, sld, metadata, include_adjust = FALSE,
     ipd_summary    = ipd_summary,
     sld_summary    = sld_summary,
     include_adjust = include_adjust,
-    targets        = targets,
-    design         = design,
-    fit            = fit,
-    weights        = fit$weights,
-    diagnostics    = weight_diagnostics(fit),
+    weighted       = w$weighted,
+    targets        = w$targets,
+    design         = w$design,
+    fit            = w$fit,
+    weights        = w$fit$weights,
+    diagnostics    = weight_diagnostics(w$fit),
     balance_before = balance_before,
     balance_after  = balance_after
   )

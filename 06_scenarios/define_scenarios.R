@@ -18,8 +18,10 @@
 #
 # define_scenarios_sequential()  scenario k switches on variables[1:k].
 #                                include_empty = TRUE adds a scenario with
-#                                nothing on in the varied tier (for "adjust":
-#                                the primary set alone).
+#                                nothing on in the varied tier: for "adjust"
+#                                the primary set alone; for "match" with no
+#                                adjust tier in play, the naive unweighted
+#                                analysis.
 # define_scenarios_univariate()  scenario k switches on variables[k] only.
 #
 # Each scenario: list(label, flag, variables, metadata).

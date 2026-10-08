@@ -2,7 +2,7 @@ res <- run_maic_weighting(toy$ipd, toy$sld, toy$metadata)
 
 test_that("result has every documented component", {
   expect_named(res, c(
-    "metadata", "ipd_summary", "sld_summary", "include_adjust", "targets", "design", "fit",
+    "metadata", "ipd_summary", "sld_summary", "include_adjust", "weighted", "targets", "design", "fit",
     "weights", "diagnostics", "balance_before", "balance_after"
   ))
 })

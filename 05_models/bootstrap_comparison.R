@@ -118,9 +118,8 @@ bootstrap_comparison <- function(ipd, sld_summary, metadata, outcome, sld_outcom
 # "Degenerate replicate" error.
 .one_replicate <- function(ipd_b, sld_summary, metadata, outcome, sld_outcome, arm, reference_arm,
                            include_adjust, na_action, ...) {
-  targets <- build_match_targets(summarize_ipd(ipd_b, metadata), sld_summary, metadata, include_adjust = include_adjust)
-  design  <- build_design_matrix(ipd_b, targets, na_action = na_action)
-  fit     <- estimate_maic_weights(design, ...)
+  fit     <- estimate_weights(ipd_b, summarize_ipd(ipd_b, metadata), sld_summary, metadata,
+                              include_adjust = include_adjust, na_action = na_action, ...)$fit
   model   <- fit_outcome_model(ipd_b, outcome, weights = fit$weights, arm = arm, reference_arm = reference_arm)
   result  <- compare_to_sld(model, sld_outcome)
   if (!is.finite(result$estimate)) {

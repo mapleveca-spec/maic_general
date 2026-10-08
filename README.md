@@ -179,6 +179,11 @@ effective sample size, so unit weights reproduce the unweighted tables exactly.
 the pooled-SD formula gives the textbook proportion SMD without a second code
 path. Identical constants give 0; 100% vs 0% gives signed `Inf`.
 
+**An empty weighting set is the naive analysis.** With no `match` variable
+and no `adjust` variable in play, every patient gets weight 1 and the
+comparison is unweighted; `weighted = FALSE` in the result. This is the
+baseline row of a sequential matching table, not an error.
+
 **Matching is reweighting.** No patient is removed for failing to match.
 Patients with `NA` in a matched variable get weight 0 (complete-case default;
 `na_action = "error"` refuses instead). An SLD level absent from the IPD, or an
