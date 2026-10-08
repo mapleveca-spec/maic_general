@@ -245,7 +245,11 @@ prognostic variables one by one on top of the fixed primary set (the runner
 weights with `include_adjust = TRUE` for such lists). `flag = "match"` varies
 the primary set itself. A scenario never moves a variable between tiers.
 `run_maic_scenarios()` reuses weights across scenarios with an identical
-weighting set.
+weighting set. Every scenario row carries its run's weight distribution
+(ESS and its share of n, exclusions, min / quartiles / max of the rescaled
+weights, top-10% share), so each model can be judged from the table alone;
+`format_results()` renders these and `format_weight_summary()` gives them
+as one string per row.
 
 ## Tests and style
 

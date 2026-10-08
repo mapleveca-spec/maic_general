@@ -57,9 +57,13 @@ test_that("scenario results carry Model, Variables, and Weighting ESS", {
                            arm = "ARM", reference_arm = "A")
   tab <- format_results(o$results)
   expect_equal(names(tab)[1:2], c("Model", "Variables"))
-  expect_equal(names(tab)[length(tab)], "Weighting ESS")
+  expect_true(all(c("Weighting ESS", "ESS %", "Excluded", "Weight min", "Weight Q1", "Weight median", "Weight Q3",
+                    "Weight max", "Top 10% share") %in% names(tab)))
   expect_equal(tab$Model, c("+ fac_prior_treatment", "+ fac_bmi"))
   expect_equal(nrow(tab), 2)
+  expect_equal(tab$`Weight max`, sprintf("%.2f", o$results$w_max))
+  expect_match(tab$`Top 10% share`[1], "^[0-9]+%$")
+  expect_match(format_weight_summary(o$results)[1], "^min [0-9.]+ \\| Q1 .* \\| max [0-9.]+$")
 })
 
 test_that("format_estimate_ci handles NA", {

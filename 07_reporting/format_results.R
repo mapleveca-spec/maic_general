@@ -5,10 +5,13 @@
 #                           log_or -> odds ratio, log_hr -> hazard ratio
 #                           (exponentiated); mean_diff left as is.
 # format_results()          display table: one string per estimate and
-#                           interval, plus N and ESS. Works on
-#                           run_maic_analysis()$results and on
-#                           run_maic_scenarios()$results (scenario columns
-#                           are carried through when present).
+#                           interval, plus N and ESS. Works on a single
+#                           analysis `result`, on run_maic_outcomes()$summary,
+#                           and on run_maic_scenarios()$results, where the
+#                           scenario columns and the weight distribution
+#                           (ESS, exclusions, min / quartiles / max, top-10%
+#                           share) are carried through.
+# format_weight_summary()   the weight distribution as one string per row.
 #
 # The scale column of a results table is always one of RESULT_SCALES, since
 # compare_to_sld() converts unanchored logits and means to a contrast.
@@ -54,10 +57,28 @@ format_results <- function(results, digits = 2, na_label = "NR") {
     tab <- dplyr::bind_cols(
       tibble::tibble(Model = bt$label, Variables = bt$variables),
       tab,
-      tibble::tibble(`Weighting ESS` = round(bt$weight_ess, 1))
+      tibble::tibble(
+        `Weighting ESS`   = round(bt$weight_ess, 1),
+        `ESS %`           = round(100 * bt$weight_ess_pct),
+        `Excluded`        = bt$n_excluded,
+        `Weight min`      = .num(bt$w_min, 2),
+        `Weight Q1`       = .num(bt$w_q25, 2),
+        `Weight median`   = .num(bt$w_median, 2),
+        `Weight Q3`       = .num(bt$w_q75, 2),
+        `Weight max`      = .num(bt$w_max, 2),
+        `Top 10% share`   = paste0(round(100 * bt$top10_share), "%")
+      )
     )
   }
   tab
+}
+
+# Compact one-line weight summary for narrow tables:
+# "min 0.04 | Q1 0.28 | median 0.48 | Q3 1.28 | max 5.37".
+format_weight_summary <- function(results) {
+  stopifnot(all(c("w_min", "w_q25", "w_median", "w_q75", "w_max") %in% names(results)))
+  paste0("min ", .num(results$w_min, 2), " | Q1 ", .num(results$w_q25, 2), " | median ", .num(results$w_median, 2),
+         " | Q3 ", .num(results$w_q75, 2), " | max ", .num(results$w_max, 2))
 }
 
 format_estimate_ci <- function(est, lo, hi, digits = 2, na_label = "NR") {

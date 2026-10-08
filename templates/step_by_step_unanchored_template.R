@@ -141,15 +141,16 @@ sequential <- run_maic_scenarios(
   define_scenarios_sequential(metadata, adjust_order, include_empty = TRUE),
   ipd_all, sld, outcome, sld_outcome, arm = "ARM", intervention_arm = "A"
 )
-show("Sequential: naive baseline, then each variable added to the weighting set",
-     format_results(sequential$results)[, c("Model", "Estimate (95% CI)", "N", "Weighting ESS")], right = FALSE)
+weight_cols <- c("Model", "Estimate (95% CI)", "N", "Weighting ESS", "ESS %", "Excluded",
+                 "Weight min", "Weight median", "Weight max", "Top 10% share")
+show("Sequential: naive baseline, then each variable added; weight distribution per model",
+     format_results(sequential$results)[, weight_cols], right = FALSE)
 
 univariate <- run_maic_scenarios(
   define_scenarios_univariate(metadata, adjust_order),
   ipd_all, sld, outcome, sld_outcome, arm = "ARM", intervention_arm = "A"
 )
-show("Univariate: each variable weighted on alone",
-     format_results(univariate$results)[, c("Model", "Estimate (95% CI)", "N", "Weighting ESS")], right = FALSE)
+show("Univariate: each variable weighted on alone", format_results(univariate$results)[, weight_cols], right = FALSE)
 
 cat("\nDone. run_maic_analysis(ipd_all, sld, metadata, outcome, sld_outcome, arm = \"ARM\",",
     "intervention_arm = \"A\", include_adjust = TRUE) runs steps 1 to 8 in one call.\n")

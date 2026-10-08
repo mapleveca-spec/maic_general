@@ -15,9 +15,12 @@
 #
 # Returns list(results, runs):
 #   results  tibble: scenario (index), label, flag, n_variables, variables,
-#            then the one-row comparison columns, then weight_ess (the
-#            scenario's weighting ESS, which differs from `ess` only when the
-#            outcome has missing values)
+#            then the one-row comparison columns, then the scenario's weight
+#            diagnostics so each model can be judged without opening its run:
+#            weighted, weight_ess, weight_ess_pct, n_excluded, w_min, w_q25,
+#            w_median, w_q75, w_max (rescaled weights, 1 = one patient),
+#            top10_share. weight_ess differs from `ess` only when the outcome
+#            has missing values.
 #   runs     list of the per-scenario result lists (as run_maic_analysis(),
 #            without bootstrap)
 
@@ -51,6 +54,7 @@ run_maic_scenarios <- function(scenarios, ipd, sld, outcome, sld_outcome,
 
   results <- dplyr::bind_rows(lapply(seq_along(runs), function(i) {
     sc <- scenarios[[i]]
+    d  <- runs[[i]]$diagnostics
     dplyr::bind_cols(
       tibble::tibble(
         scenario    = i,
@@ -60,7 +64,18 @@ run_maic_scenarios <- function(scenarios, ipd, sld, outcome, sld_outcome,
         variables   = paste(sc$variables, collapse = ", ")
       ),
       runs[[i]]$result,
-      tibble::tibble(weight_ess = runs[[i]]$diagnostics$ess)
+      tibble::tibble(
+        weighted       = runs[[i]]$weighted,
+        weight_ess     = d$ess,
+        weight_ess_pct = d$ess_pct,
+        n_excluded     = d$n_excluded,
+        w_min          = d$w_min,
+        w_q25          = d$w_q25,
+        w_median       = d$w_median,
+        w_q75          = d$w_q75,
+        w_max          = d$w_max,
+        top10_share    = d$top10_share
+      )
     )
   }))
 

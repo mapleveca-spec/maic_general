@@ -130,7 +130,8 @@ show("Sequential scenarios: which variables are on in each",
      right = FALSE)
 sens <- run_maic_scenarios(scenarios, ipd, sld, outcome, sld_outcome,
                            arm = arms$arm, reference_arm = arms$reference_arm)
-show("Scenario results: one row per model; weighting ESS falls as constraints are added",
-     format_results(sens$results)[, c("Model", "Variables", "Estimate (95% CI)", "N", "Weighting ESS")], right = FALSE)
+show("Scenario results: one row per model, with that model's weight distribution",
+     format_results(sens$results)[, c("Model", "Estimate (95% CI)", "N", "Weighting ESS", "ESS %", "Excluded",
+                                      "Weight min", "Weight median", "Weight max", "Top 10% share")], right = FALSE)
 
 cat("\nDone. The same chain, without the printing, is run_maic_analysis().\n")

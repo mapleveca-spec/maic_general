@@ -78,6 +78,21 @@ test_that("one row per scenario, scenario columns first, one outcome throughout"
   expect_length(out$runs, length(seq_adj))
 })
 
+test_that("every scenario row carries the weight distribution of its run", {
+  cols <- c("weighted", "weight_ess", "weight_ess_pct", "n_excluded", "w_min", "w_q25", "w_median", "w_q75",
+            "w_max", "top10_share")
+  expect_true(all(cols %in% names(out$results)))
+  for (i in seq_along(out$runs)) {
+    d <- out$runs[[i]]$diagnostics
+    expect_equal(out$results$w_max[i], d$w_max)
+    expect_equal(out$results$w_median[i], d$w_median)
+    expect_equal(out$results$n_excluded[i], d$n_excluded)
+    expect_equal(out$results$top10_share[i], d$top10_share)
+  }
+  expect_true(all(out$results$w_min <= out$results$w_median & out$results$w_median <= out$results$w_max))
+  expect_true(all(diff(out$results$w_max) >= 0))   # more constraints, heavier maximum weight (toy data)
+})
+
 test_that("adjust scenarios weight on primary + adjust tier, so each has its own weights", {
   expect_true(all(vapply(out$runs, `[[`, logical(1), "include_adjust")))
   n_targets <- vapply(out$runs, function(r) nrow(r$targets), integer(1))
