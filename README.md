@@ -69,9 +69,13 @@ data so they run as is; replace the CSV contents for a real study.
   unweighted baseline, shows the errors raised for variables that cannot be
   weighted on, and ends with sequential and univariate scenarios over the
   adjust tier.
+- `step_by_step_single_arm_template.R`: the unanchored walk-through for a
+  single-arm IPD with no arm column, so no arm argument appears anywhere.
+  Naive baseline, weighting, bootstrap, the one-call equivalent, scenarios
+  with the step-by-step balance table, and the export layout.
 - `multi_analysis_template.R`: several unanchored analyses from a prepared
-  input list (name, population, comparator, IPD, SLD, metadata, outcome,
-  published result). For each, a sequential scenario from the unweighted
+  input list (name, population, comparator, single-arm IPD without an arm
+  column, SLD, metadata, outcome, published result). For each, a sequential scenario from the unweighted
   model and a univariate scenario, exported with `export_scenarios()` under
   `<output>/<analysis>/<sequential|univariate>/`: a results table with each
   model's weight distribution, one `balance_path.csv` showing the weighted

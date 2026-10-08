@@ -10,7 +10,9 @@
 #   analysis_name  label, also used as the folder name
 #   population     free text, carried into the stacked tables
 #   comparator     free text, carried into the stacked tables
-#   ipd            single-arm IPD for this analysis (or multi-arm; see arm below)
+#   ipd            single-arm IPD for this analysis; no arm column is needed
+#                  (a multi-arm IPD also works if `arm` and `intervention_arm`
+#                  are given, see below)
 #   sld            comparator baseline table
 #   metadata       covariate metadata; for an unanchored MAIC put every usable
 #                  covariate in the `adjust` tier and leave `match` FALSE
@@ -19,7 +21,8 @@
 #                  unanchored scale (logit_p or mean)
 #   adjust_order   (optional) order in which adjust variables enter the
 #                  sequential scenario; default is metadata row order
-#   arm, intervention_arm  (optional) only if the IPD has several arms
+#   arm, intervention_arm  (optional) only if the IPD has several arms; leave
+#                  both out for single-arm IPD
 #
 # Output layout:
 #   <output_dir>/
@@ -41,7 +44,10 @@ source_framework(framework_root)
 # Build the input list ----------------------------------------------------------------------
 # Replace this block with your own prepared list. Here three analyses are
 # carved from the toy data: two populations (arm A, arm B) and two outcomes.
+# Each IPD is made single-arm by taking one arm and dropping the arm column,
+# as a real single-arm study would arrive; no arm arguments are given.
 toy <- readRDS("sandbox/toy_data.rds")
+single_arm <- function(arm) toy$ipd[toy$ipd$ARM == arm, setdiff(names(toy$ipd), "ARM")]
 meta_unanchored <- toy$metadata
 meta_unanchored$match    <- FALSE
 meta_unanchored$adjust   <- meta_unanchored$variable %in% c("fac_sev_hb", "fac_tar_jnt_lead", "fac_age", "fac_bmi")
@@ -52,7 +58,7 @@ analysis_inputs <- list(
     analysis_name = "Response, population A",
     population    = "Trial X arm A",
     comparator    = "Study Y single arm",
-    ipd           = toy$ipd[toy$ipd$ARM == "A", ],
+    ipd           = single_arm("A"),
     sld           = toy$sld,
     metadata      = meta_unanchored,
     outcome       = define_outcome("Response", "binary", "y_resp"),
@@ -63,7 +69,7 @@ analysis_inputs <- list(
     analysis_name = "Response, population B",
     population    = "Trial X arm B",
     comparator    = "Study Y single arm",
-    ipd           = toy$ipd[toy$ipd$ARM == "B", ],
+    ipd           = single_arm("B"),
     sld           = toy$sld,
     metadata      = meta_unanchored,
     outcome       = define_outcome("Response", "binary", "y_resp"),
@@ -73,7 +79,7 @@ analysis_inputs <- list(
     analysis_name = "Score change, population A",
     population    = "Trial X arm A",
     comparator    = "Study Y single arm",
-    ipd           = toy$ipd[toy$ipd$ARM == "A", ],
+    ipd           = single_arm("A"),
     sld           = toy$sld,
     metadata      = meta_unanchored,
     outcome       = define_outcome("Score change", "continuous", "y_score"),
