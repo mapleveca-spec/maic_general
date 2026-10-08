@@ -62,7 +62,13 @@ data so they run as is; replace the CSV contents for a real study.
   aligned balance, targets, design matrix, solver output, weights and their
   diagnostics, weighted balance, outcome model, comparison, bootstrap, and
   the scenario definitions. Run it line by line to learn or debug the
-  process; the pipelines in `08_main` make exactly these calls. Metadata is maintained as a
+  process; the pipelines in `08_main` make exactly these calls.
+- `step_by_step_unanchored_template.R`: the same walk-through for an
+  unanchored comparison on the intervention arm, with no `match` tier and
+  every usable covariate in the `adjust` tier. Starts from the naive
+  unweighted baseline, shows the errors raised for variables that cannot be
+  weighted on, and ends with sequential and univariate scenarios over the
+  adjust tier. Metadata is maintained as a
 flat file with `level_order` written as `Mild|Moderate|Severe` and read with
 `read_metadata_csv()`. Published ratios with confidence intervals convert with
 `se_from_ci()` on the log scale.
