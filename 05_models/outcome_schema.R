@@ -2,13 +2,32 @@
 #
 # One analysis = one IPD outcome + one published result. The IPD outcome is
 # described by define_outcome(); the published result by define_sld_outcome()
-# (sld_outcome.R). Whether the comparison is anchored follows from the
-# published result's scale, so it is never specified separately.
+# (sld_outcome.R). Whether a published result is anchored follows from its
+# scale; the anchored and unanchored entry points in 08_main each accept only
+# their own kind.
 #
 #   name   label used in results
-#   type   one of OUTCOME_TYPES (01_inputs/outcome_table_schema.R)
+#   type   one of OUTCOME_TYPES
 #   var    IPD column: 0/1 for binary, numeric for continuous, time for tte
 #   event  IPD column with 0/1 event indicator (tte only)
+
+OUTCOME_TYPES <- c("binary", "continuous", "tte")
+
+ANCHORED_SCALES   <- c("log_or", "log_hr", "mean_diff")
+UNANCHORED_SCALES <- c("logit_p", "mean")
+ESTIMATE_SCALES   <- c(ANCHORED_SCALES, UNANCHORED_SCALES)
+
+# The scale on which the framework estimates an outcome of a given type for a
+# given comparison kind.
+#   anchored    binary log_or, continuous mean_diff, tte log_hr
+#   unanchored  binary logit_p, continuous mean, tte unsupported (NA)
+estimate_scale <- function(type, anchored) {
+  if (anchored) {
+    switch(type, binary = "log_or", continuous = "mean_diff", tte = "log_hr")
+  } else {
+    switch(type, binary = "logit_p", continuous = "mean", tte = NA_character_)
+  }
+}
 
 define_outcome <- function(name, type, var, event = NULL) {
   stopifnot(is.character(name), length(name) == 1, nzchar(name))

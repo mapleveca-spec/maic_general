@@ -10,7 +10,7 @@
 # weight_diagnostics() quantifies what the tail shows.
 #
 # `fit` is an estimate_maic_weights() result (as `weight_fit` in a
-# run_maic_analysis() result), or any list with a `weights` vector.
+# run_maic_anchored() / run_maic_unanchored() result), or any list with a `weights` vector.
 # Returns a ggplot object; save it with ggplot2::ggsave().
 
 plot_weights <- function(fit, bins = 30, title = "Distribution of MAIC weights") {

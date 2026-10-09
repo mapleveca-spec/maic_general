@@ -1,6 +1,0 @@
-"name","anchored","scale","estimate","se"
-"Response",TRUE,"log_or",0.405465108108164,0.26
-"OS",TRUE,"log_hr",-0.22314355131421,0.15
-"Score change",TRUE,"mean_diff",-2,0.9
-"Response",FALSE,"logit_p",-0.405465108108164,0.204124145231932
-"Score change",FALSE,"mean",-6.5,0.6

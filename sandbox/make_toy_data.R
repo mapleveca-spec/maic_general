@@ -17,8 +17,8 @@
 #     variable, including Missing, sum to 1.
 #
 # Outcomes (IPD columns): y_resp binary, y_time / y_event tte, y_score
-# continuous. `outcomes` lists them; `sld_outcomes` holds the comparator
-# study's published results for anchored and unanchored comparisons.
+# continuous. Published comparator results and ready-made analysis-input
+# lists are built by the toy analysis-inputs helper in the sandbox folder.
 #
 # Edge cases:
 #   Continuous
@@ -75,24 +75,8 @@ make_toy_data <- function(n_ipd = 60, sld_n = 100, seed = 2026) {
   ipd$y_score <- round(-5 - 3 * (ipd$ARM == "A") + 0.1 * (ipd$fac_age - 48) +       # continuous
                          rnorm(n_ipd, 0, 4), 1)
 
-  # Outcome specs: which IPD columns hold each outcome.
-  outcomes <- tibble::tibble(
-    name  = c("Response", "OS", "Score change"),
-    type  = c("binary", "tte", "continuous"),
-    var   = c("y_resp", "y_time", "y_score"),
-    event = c(NA, "y_event", NA)
-  )
-
-  # Published outcomes of the comparator study, on the scale the framework
-  # compares on. Anchored rows are "intervention vs common comparator";
-  # unanchored rows are absolute outcomes in the comparator arm.
-  sld_outcomes <- tibble::tibble(
-    name     = c("Response", "OS", "Score change", "Response", "Score change"),
-    anchored = c(TRUE, TRUE, TRUE, FALSE, FALSE),
-    scale    = c("log_or", "log_hr", "mean_diff", "logit_p", "mean"),
-    estimate = c(log(1.5), log(0.8), -2.0, qlogis(0.40), -6.5),
-    se       = c(0.26, 0.15, 0.9, 1 / sqrt(sld_n * 0.4 * 0.6), 0.6)
-  )
+  # Outcome specs and published results live in sandbox/toy_analysis_inputs.R,
+  # which builds analysis-input lists from this data.
 
   # SLD ------------------------------------------------------------------------
   con_row <- function(var_name, est, sd, p_missing = NULL) {
@@ -158,10 +142,7 @@ make_toy_data <- function(n_ipd = 60, sld_n = 100, seed = 2026) {
     )
   )
 
-  list(
-    ipd = ipd, sld = sld, metadata = metadata,
-    outcomes = outcomes, sld_outcomes = sld_outcomes
-  )
+  list(ipd = ipd, sld = sld, metadata = metadata)
 }
 
 if (sys.nframe() == 0) {

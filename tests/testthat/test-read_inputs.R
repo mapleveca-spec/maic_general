@@ -1,20 +1,24 @@
-template_dir <- file.path(framework_root, "templates")
+flatten_levels <- function(lo, sep = "|") vapply(lo, function(x) if (is.null(x)) "" else paste(x, collapse = sep), "")
 
-test_that("metadata_from_table round-trips the toy metadata through a flat file", {
+test_that("metadata_from_table round-trips the toy metadata through a flat table", {
   flat <- toy$metadata
-  flat$level_order <- vapply(flat$level_order, function(x) if (is.null(x)) "" else paste(x, collapse = "|"), "")
+  flat$level_order <- flatten_levels(toy$metadata$level_order)
   m <- metadata_from_table(as.data.frame(flat))
   expect_equal(m, toy$metadata)
 })
 
-test_that("read_metadata_csv reads the template and validates it", {
-  m <- read_metadata_csv(file.path(template_dir, "metadata_template.csv"))
+test_that("read_metadata_csv reads a CSV written the way an analyst would store it", {
+  flat <- as.data.frame(toy$metadata)
+  flat$level_order <- flatten_levels(toy$metadata$level_order)
+  f <- tempfile(fileext = ".csv")
+  write.csv(flat, f, row.names = FALSE, na = "")
+  m <- read_metadata_csv(f)
   expect_equal(m, toy$metadata)
 })
 
 test_that("flags accept common spellings and reject others", {
   flat <- as.data.frame(toy$metadata)
-  flat$level_order <- vapply(toy$metadata$level_order, function(x) if (is.null(x)) "" else paste(x, collapse = "|"), "")
+  flat$level_order <- flatten_levels(toy$metadata$level_order)
   flat$match <- ifelse(flat$match, "yes", "no")
   flat$adjust <- ifelse(flat$adjust, 1, 0)
   expect_equal(metadata_from_table(flat)$match, toy$metadata$match)
@@ -25,8 +29,7 @@ test_that("flags accept common spellings and reject others", {
 
 test_that("level_order splitting trims whitespace and honours sep", {
   flat <- as.data.frame(toy$metadata)
-  joined <- function(x) if (is.null(x)) "" else paste(x, collapse = " ; ")
-  flat$level_order <- vapply(toy$metadata$level_order, joined, "")
+  flat$level_order <- flatten_levels(toy$metadata$level_order, sep = " ; ")
   m <- metadata_from_table(flat, sep = ";")
   expect_equal(m$level_order, toy$metadata$level_order)
 })
@@ -44,13 +47,12 @@ test_that("se_from_ci inverts a Wald interval", {
   expect_error(se_from_ci(1, 0), "must not exceed")
 })
 
-test_that("the CSV templates reproduce the toy inputs", {
-  sld <- read.csv(file.path(template_dir, "sld_template.csv"), stringsAsFactors = FALSE, na.strings = c("", "NA"))
+test_that("toy SLD and IPD survive a CSV round trip and still validate", {
+  f <- tempfile(fileext = ".csv")
+  write.csv(toy$sld, f, row.names = FALSE, na = "")
+  sld <- read.csv(f, stringsAsFactors = FALSE, na.strings = c("", "NA"))
   expect_silent(validate_sld(sld, toy$metadata))
-  out <- read.csv(file.path(template_dir, "outcomes_template.csv"), stringsAsFactors = FALSE, na.strings = c("", "NA"))
-  expect_silent(validate_outcomes(out))
-  so <- read.csv(file.path(template_dir, "sld_outcomes_template.csv"), stringsAsFactors = FALSE)
-  expect_silent(validate_sld_outcomes(so, out))
-  ipd <- read.csv(file.path(template_dir, "ipd_example.csv"), stringsAsFactors = FALSE, na.strings = c("", "NA"))
+  write.csv(toy$ipd, f, row.names = FALSE, na = "")
+  ipd <- read.csv(f, stringsAsFactors = FALSE, na.strings = c("", "NA"))
   expect_silent(validate_ipd(ipd, toy$metadata))
 })

@@ -5,7 +5,7 @@ m$match <- FALSE
 m$adjust <- m$variable %in% c("fac_sev_hb", "fac_age", "fac_bmi")
 m$match_sd <- m$variable == "fac_age"
 sc  <- define_scenarios_sequential(m, c("fac_age", "fac_sev_hb", "fac_bmi"), include_empty = TRUE)
-out <- run_maic_scenarios(sc, toy$ipd, toy$sld, resp, resp_una, arm = "ARM", intervention_arm = "A")
+out <- run_scenarios_unanchored(sc, toy$ipd[toy$ipd$ARM == "A", ], toy$sld, resp, resp_una)
 
 test_that("slugify makes ordered, file-safe names", {
   expect_equal(slugify(c("+ fac_age", "(none)", "Score change", "  A / B  ")),

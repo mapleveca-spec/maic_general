@@ -6,8 +6,8 @@
 #                           (exponentiated); mean_diff left as is.
 # format_results()          display table: one string per estimate and
 #                           interval, plus N and ESS. Works on a single
-#                           analysis `result`, on run_maic_outcomes()$summary,
-#                           and on run_maic_scenarios()$results, where the
+#                           analysis `result`, on run_analyses_*() stacked tables,
+#                           and on run_scenarios_*()$results, where the
 #                           scenario columns and the weight distribution
 #                           (ESS, exclusions, min / quartiles / max, top-10%
 #                           share) are carried through.
@@ -54,24 +54,31 @@ format_results <- function(results, digits = 2, na_label = "NR") {
   tab$ESS <- round(bt$ess, 1)
 
   if ("label" %in% names(bt)) {
+    header <- tibble::tibble(Model = bt$label, Variables = bt$variables)
+    if ("status" %in% names(bt)) {
+      header$Status <- bt$status
+      header$Error  <- ifelse(is.na(bt$error), "", bt$error)
+    }
     tab <- dplyr::bind_cols(
-      tibble::tibble(Model = bt$label, Variables = bt$variables),
+      header,
       tab,
       tibble::tibble(
         `Weighting ESS`   = round(bt$weight_ess, 1),
         `ESS %`           = round(100 * bt$weight_ess_pct),
         `Excluded`        = bt$n_excluded,
-        `Weight min`      = .num(bt$w_min, 2),
-        `Weight Q1`       = .num(bt$w_q25, 2),
-        `Weight median`   = .num(bt$w_median, 2),
-        `Weight Q3`       = .num(bt$w_q75, 2),
-        `Weight max`      = .num(bt$w_max, 2),
-        `Top 10% share`   = paste0(round(100 * bt$top10_share), "%")
+        `Weight min`      = .num_or(bt$w_min, 2, na_label),
+        `Weight Q1`       = .num_or(bt$w_q25, 2, na_label),
+        `Weight median`   = .num_or(bt$w_median, 2, na_label),
+        `Weight Q3`       = .num_or(bt$w_q75, 2, na_label),
+        `Weight max`      = .num_or(bt$w_max, 2, na_label),
+        `Top 10% share`   = ifelse(is.na(bt$top10_share), na_label, paste0(round(100 * bt$top10_share), "%"))
       )
     )
   }
   tab
 }
+
+.num_or <- function(x, digits, na_label) ifelse(is.na(x), na_label, .num(x, digits))
 
 # Compact one-line weight summary for narrow tables:
 # "min 0.04 | Q1 0.28 | median 0.48 | Q3 1.28 | max 5.37".

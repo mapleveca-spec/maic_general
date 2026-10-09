@@ -54,7 +54,7 @@ test_that("naive run_maic_weighting: balance unchanged, diagnostics reflect unit
 })
 
 test_that("naive run_maic_analysis equals the unweighted model, and bootstraps", {
-  naive <- run_maic_analysis(toy$ipd, toy$sld, naive_meta, resp, resp_anc, arm = "ARM", reference_arm = "A",
+  naive <- run_maic_anchored(toy$ipd, toy$sld, naive_meta, resp, resp_anc, arm = "ARM", reference_arm = "A",
                              n_boot = 20, seed = 1)
   ref <- glm(y_resp ~ ARM, data = toy$ipd, family = binomial())
   expect_equal(naive$result$ipd_estimate, unname(coef(ref)["ARMB"]))
@@ -70,7 +70,7 @@ test_that("sequential match scenarios can start from the naive analysis", {
   m$adjust <- FALSE   # keep the adjust tier out so the empty scenario is truly unweighted
   sc <- define_scenarios_sequential(m, c("fac_sev_hb", "fac_tar_jnt_lead", "fac_age"), flag = "match",
                                     include_empty = TRUE)
-  out <- run_maic_scenarios(sc, toy$ipd, toy$sld, resp, resp_anc, arm = "ARM", reference_arm = "A")
+  out <- run_scenarios_anchored(sc, toy$ipd, toy$sld, resp, resp_anc, arm = "ARM", reference_arm = "A")
   expect_equal(out$results$label[1], "(none)")
   expect_false(out$runs[[1]]$weighted)
   expect_equal(out$results$weight_ess[1], nrow(toy$ipd))

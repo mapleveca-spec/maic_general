@@ -40,8 +40,9 @@ estimate_maic_weights <- function(design, maxit = 100000) {
     method = "BFGS", control = list(maxit = maxit)
   )
   if (fit$convergence != 0) {
-    stop("MAIC weight estimation did not converge (optim code ", fit$convergence,
-         "). Try a larger `maxit` or fewer matched moments.", call. = FALSE)
+    stop("MAIC weight estimation did not converge (optim code ", fit$convergence, ") with ", ncol(X),
+         " constraints on ", nrow(X), " rows [", paste(colnames(X), collapse = ", "),
+         "]. Try a larger `maxit` or fewer matched moments.", call. = FALSE)
   }
 
   w_cc  <- as.numeric(exp(x_std %*% fit$par))

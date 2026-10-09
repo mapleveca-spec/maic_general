@@ -53,9 +53,10 @@ test_that("reference_arm is required with arm and flips the sign of the contrast
   expect_equal(b$contrast, "A vs B")
 })
 
-test_that("toy outcome specs cover every outcome type and are fittable", {
-  expect_setequal(toy$outcomes$type, OUTCOME_TYPES)
-  for (spec in outcome_specs(toy$outcomes)) {
+test_that("every outcome type in the toy IPD is fittable anchored", {
+  specs <- list(resp, os, define_outcome("Score change", "continuous", "y_score"))
+  expect_setequal(vapply(specs, `[[`, "", "type"), OUTCOME_TYPES)
+  for (spec in specs) {
     f <- fit_outcome_model(toy$ipd, spec, weights = w, arm = "ARM", reference_arm = "A")
     expect_true(is.finite(f$estimate$estimate), label = spec$name)
   }

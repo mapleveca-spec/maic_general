@@ -2,7 +2,7 @@ resp     <- define_outcome("Response", "binary", "y_resp")
 os       <- define_outcome("OS", "tte", "y_time", event = "y_event")
 resp_anc <- define_sld_outcome("Response", "log_or", estimate = log(1.5), se = 0.26)
 sld_s    <- summarize_sld(toy$sld, toy$metadata)
-point    <- run_maic_analysis(toy$ipd, toy$sld, toy$metadata, resp, resp_anc, arm = "ARM", reference_arm = "A")
+point    <- run_maic_anchored(toy$ipd, toy$sld, toy$metadata, resp, resp_anc, arm = "ARM", reference_arm = "A")
 
 boot <- bootstrap_comparison(toy$ipd, sld_s, toy$metadata, resp, resp_anc,
                              arm = "ARM", reference_arm = "A", n_boot = 60, seed = 1, max_fail_rate = 0.5)
