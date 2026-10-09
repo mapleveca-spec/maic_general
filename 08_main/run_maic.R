@@ -4,7 +4,7 @@
 # published result. Each accepts only its own kind of published result, so
 # nothing is inferred from the inputs.
 #
-# run_maic_unanchored(ipd, sld, metadata, outcome, sld_outcome, ...)
+# run_maic_unanchored, arguments: ipd, sld, metadata, outcome, sld_outcome, options.
 #   The IPD is the analysis population as supplied: a single-arm study, or a
 #   trial already restricted to the arm of interest. There is no arm argument.
 #   The published result must be an absolute outcome (logit_p or mean). The
@@ -12,7 +12,7 @@
 #   TSD 18 requires unanchored comparisons to weight on all prognostic
 #   variables and effect modifiers.
 #
-# run_maic_anchored(ipd, sld, metadata, outcome, sld_outcome, arm, reference_arm, ...)
+# run_maic_anchored, arguments: the same plus arm and reference_arm.
 #   The IPD has two arms; `reference_arm` is the common comparator and the
 #   estimate is "other arm vs reference_arm". The published result must be a
 #   contrast (log_or, log_hr, mean_diff). include_adjust defaults to FALSE:
