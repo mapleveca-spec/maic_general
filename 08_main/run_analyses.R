@@ -50,15 +50,15 @@ run_analyses_anchored <- function(inputs, output_dir = NULL, ...) {
 
   analyses <- lapply(inputs, function(a) {
     tryCatch(.run_analysis_scenarios(a, kind, output_dir, ...), error = function(e) {
-      list(error = conditionMessage(e), stage = attr(e, "stage") %||% "unknown")
+      list(error = conditionMessage(e), stage = or_default(attr(e, "stage"), "unknown"))
     })
   })
 
   tag <- function(name, results) {
     a <- inputs[[name]]
     dplyr::bind_cols(
-      tibble::tibble(analysis = name, population = a$population %||% NA_character_,
-                     comparator = a$comparator %||% NA_character_),
+      tibble::tibble(analysis = name, population = or_default(a$population, NA_character_),
+                     comparator = or_default(a$comparator, NA_character_)),
       results
     )
   }
@@ -77,7 +77,7 @@ run_analyses_anchored <- function(inputs, output_dir = NULL, ...) {
   )
 }
 
-`%||%` <- function(x, y) if (is.null(x)) y else x
+or_default <- function(x, default) if (is.null(x)) default else x
 
 .stage_error <- function(stage, expr) {
   tryCatch(expr, error = function(e) {
@@ -104,7 +104,7 @@ run_analyses_anchored <- function(inputs, output_dir = NULL, ...) {
     }
   })
 
-  order <- a$adjust_order %||% a$metadata$variable[a$metadata$adjust]
+  order <- or_default(a$adjust_order, a$metadata$variable[a$metadata$adjust])
   scen_seq <- .stage_error("scenarios", define_scenarios_sequential(a$metadata, order, include_empty = TRUE))
   scen_uni <- .stage_error("scenarios", define_scenarios_univariate(a$metadata, order))
 
