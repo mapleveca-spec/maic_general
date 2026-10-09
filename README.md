@@ -49,6 +49,7 @@ from the toy data by `sandbox/toy_analysis_inputs.R`. Each starts from an
 | `step_by_step_anchored.R` | The same for an anchored MAIC, including the arm rules. |
 | `multi_analysis_unanchored.R` | `run_analyses_unanchored()` over an input list: sequential scenario from the unweighted model plus univariate scenario per analysis, exported in a fixed layout and stacked. Includes two deliberately broken inputs to show how failures are reported. |
 | `multi_analysis_anchored.R` | `run_analyses_anchored()` over an input list, sequential from the effect-modifier set. |
+| `investigate_failed_step.R` | How to debug a failed scenario step: read the status column, `failed_steps()`, `replay_scenario()`, `scenario_replay_code()`, trace the cause with the module functions, fix and confirm. Stages an infeasible variable and a non-converging solver on the toy data. |
 
 An `analysis_inputs` element holds: `analysis_name`, `population`,
 `comparator`, `ipd`, `sld`, `metadata`, `outcome` (`define_outcome()`),
