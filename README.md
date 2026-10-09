@@ -69,7 +69,7 @@ no statistics.
 | `05_models` | Outcome specs, arm rules, weighted fits, comparison, bootstrap | `define_outcome()`, `define_sld_outcome()`, `check_anchored_arms()`, `fit_outcome_model()`, `compare_to_sld()`, `bootstrap_comparison()` |
 | `06_scenarios` | Scenario definitions as metadata variations | `define_scenarios_sequential()`, `define_scenarios_univariate()` |
 | `07_reporting` | Display tables, plots, export | `compare_balance_tables()`, `format_balance_comparison()`, `format_results()`, `plot_weights()`, `scenario_balance_path()`, `export_scenarios()` |
-| `08_main` | Loader and pipelines | `source_framework()`, `run_maic_weighting()`, `run_maic_unanchored()` / `run_maic_anchored()`, `run_scenarios_unanchored()` / `run_scenarios_anchored()`, `run_analyses_unanchored()` / `run_analyses_anchored()` |
+| `08_main` | Loader, pipelines, replay | `source_framework()`, `run_maic_weighting()`, `run_maic_unanchored()` / `run_maic_anchored()`, `run_scenarios_unanchored()` / `run_scenarios_anchored()`, `run_analyses_unanchored()` / `run_analyses_anchored()`, `replay_scenario()`, `scenario_replay_code()`, `failed_steps()` |
 
 Every validator is pure: it never transforms its input, collects every problem
 before failing, and returns the input invisibly.
@@ -155,7 +155,12 @@ balance, estimate, bootstrap. Several analyses are a list handed to
 gives a results row with `status = "error"`, the message, and the variables in
 play; the remaining steps run. An analysis that cannot start is listed in
 `errors` with its stage. Solver failures name the constraints they were
-solving.
+solving. Every scenario run element keeps the full specification of its step,
+so `replay_scenario(out, step, ipd, sld)` re-runs that step alone through
+`run_maic_unanchored()` / `run_maic_anchored()` with a normal traceback,
+`scenario_replay_code()` prints the equivalent standalone code, and
+`failed_steps()` lists the failed steps with their replay calls. The export
+manifest carries the replay call for every step.
 
 **An empty weighting set is the naive analysis.** Unit weights, balance
 unchanged, `weighted = FALSE`. It is the first row of a sequential table.

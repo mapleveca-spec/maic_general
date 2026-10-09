@@ -109,7 +109,11 @@ export_scenarios <- function(scenario_result, dir, plot_width = 7, plot_height =
     status    = status,
     error     = vapply(runs, function(r) if (is.null(r$error)) NA_character_ else r$error, ""),
     weighted  = vapply(runs, function(r) if (is.null(r$weighted)) NA else r$weighted, logical(1)),
-    weights   = weight_files
+    weights   = weight_files,
+    replay    = vapply(step, function(i) {
+      utils::capture.output(code <- scenario_replay_code(scenario_result, i))
+      sub(".*\n", "", code)
+    }, "")
   )
   utils::write.csv(manifest, file.path(dir, "manifest.csv"), row.names = FALSE)
   invisible(manifest)

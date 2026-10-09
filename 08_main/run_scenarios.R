@@ -18,11 +18,14 @@
 #
 # Returns list(results, runs, n_failed):
 #   results  tibble: scenario (index), label, flag, n_variables, variables,
-#            status ("ok" / "error"), error (message or NA), then the one-row
-#            comparison columns, then the weight distribution of that
-#            scenario (weighted, weight_ess, weight_ess_pct, n_excluded,
-#            w_min, w_q25, w_median, w_q75, w_max, top10_share)
-#   runs     list, one element per scenario
+#            include_adjust, status ("ok" / "error"), error (message or NA),
+#            then the one-row comparison columns, then the weight distribution
+#            of that scenario (weighted, weight_ess, weight_ess_pct,
+#            n_excluded, w_min, w_q25, w_median, w_q75, w_max, top10_share)
+#   runs     list, one element per scenario; every element, failed or not,
+#            carries the full specification of its step (kind, scenario with
+#            its metadata, outcome, sld_outcome, include_adjust, arm,
+#            reference_arm), so replay_scenario() can re-run it alone
 #   n_failed number of scenarios with status "error"
 
 run_scenarios_unanchored <- function(scenarios, ipd, sld, outcome, sld_outcome, include_adjust = NULL, ...) {
@@ -65,14 +68,19 @@ run_scenarios_anchored <- function(scenarios, ipd, sld, outcome, sld_outcome, ar
     result <- compare_to_sld(fit, sld_outcome, conf_level = conf_level, contrast = contrast)
     result <- dplyr::mutate(result, n = fit$n, ess = fit$ess)
     c(wres[setdiff(names(wres), "fit")],
-      list(status = "ok", error = NA_character_, kind = kind, scenario = sc, outcome = outcome,
-           sld_outcome = sld_outcome, contrast = contrast, weight_fit = wres$fit, fit = fit, result = result))
+      list(status = "ok", error = NA_character_, weight_fit = wres$fit, fit = fit, result = result),
+      spec(sc))
+  }
+
+  # Everything needed to replay this step on its own (see replay_scenario()).
+  spec <- function(sc) {
+    list(kind = kind, scenario = sc, outcome = outcome, sld_outcome = sld_outcome, contrast = contrast,
+         include_adjust = include_adjust, arm = arm, reference_arm = reference_arm, conf_level = conf_level)
   }
 
   runs <- lapply(scenarios, function(sc) {
     tryCatch(run_one(sc), error = function(e) {
-      list(status = "error", error = conditionMessage(e), kind = kind, scenario = sc,
-           outcome = outcome, sld_outcome = sld_outcome, contrast = contrast)
+      c(list(status = "error", error = conditionMessage(e)), spec(sc))
     })
   })
 
@@ -80,13 +88,14 @@ run_scenarios_anchored <- function(scenarios, ipd, sld, outcome, sld_outcome, ar
     r  <- runs[[i]]
     sc <- scenarios[[i]]
     header <- tibble::tibble(
-      scenario    = i,
-      label       = sc$label,
-      flag        = sc$flag,
-      n_variables = length(sc$variables),
-      variables   = paste(sc$variables, collapse = ", "),
-      status      = r$status,
-      error       = r$error
+      scenario       = i,
+      label          = sc$label,
+      flag           = sc$flag,
+      n_variables    = length(sc$variables),
+      variables      = paste(sc$variables, collapse = ", "),
+      include_adjust = include_adjust,
+      status         = r$status,
+      error          = r$error
     )
     if (r$status == "ok") {
       dplyr::bind_cols(header, r$result, .weight_columns(r))

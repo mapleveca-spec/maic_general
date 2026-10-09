@@ -71,4 +71,14 @@ failed <- out$sequential[out$sequential$status == "error", c("analysis", "label"
 print(as.data.frame(failed), right = FALSE)
 cat("\n== Analyses that could not start\n")
 print(as.data.frame(out$errors), right = FALSE)
+
+# To investigate a failed step, replay it alone through the main function.
+# failed_steps() lists the replay call per failed step; replay_scenario()
+# runs it so the error surfaces with a normal traceback; scenario_replay_code()
+# prints standalone code to paste into the console.
+broken <- out$analyses[["Response, population A, infeasible variable"]]$sequential
+cat("\n== Replay calls for the failed steps of one analysis\n")
+print(as.data.frame(failed_steps(broken, ipd = "a$ipd", sld = "a$sld", run_object = "broken")), right = FALSE)
+cat("\n== Standalone code for the first failed step\n")
+scenario_replay_code(broken, failed_steps(broken)$step[1], ipd = "a$ipd", sld = "a$sld", run_object = "broken")
 cat("\nOutputs written to", output_dir, "\n")

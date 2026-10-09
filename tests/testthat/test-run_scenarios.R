@@ -10,7 +10,8 @@ anc <- run_scenarios_anchored(seq_adj, toy$ipd, toy$sld, resp, resp_anc, arm = "
 test_that("anchored scenarios: one row per scenario with status, result, and weight columns", {
   expect_named(anc, c("results", "runs", "n_failed"))
   expect_equal(nrow(anc$results), length(seq_adj))
-  expect_equal(names(anc$results)[1:7], c("scenario", "label", "flag", "n_variables", "variables", "status", "error"))
+  expect_equal(names(anc$results)[1:8],
+               c("scenario", "label", "flag", "n_variables", "variables", "include_adjust", "status", "error"))
   expect_true(all(anc$results$status == "ok"))
   expect_true(all(is.na(anc$results$error)))
   expect_equal(anc$n_failed, 0)
