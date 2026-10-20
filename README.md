@@ -219,6 +219,11 @@ lintr::lint_dir(".")                   # config in .lintr: 120 chars, snake_case
 Packages used: `tibble`, `dplyr`, `survival`, `sandwich`, `ggplot2`; `testthat`,
 `lintr`, `cyclocomp` for development.
 
+## Method notes
+
+`docs/maic_method_notes.md` summarises the MAIC steps and decisions per NICE
+DSU TSD 18 and maps each step to the framework functions.
+
 ## Open items
 
 - Output to Word or HTML is not implemented; `07_reporting` produces character
